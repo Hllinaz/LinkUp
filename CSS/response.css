@@ -1,0 +1,36 @@
+@media (max-width: 768px) {
+    main {
+        flex-direction: column;
+    }
+
+    .content-feed {
+        flex-direction: column;
+    }
+
+    .sidebar,
+    .right-panel {
+        width: 100%;
+    }
+
+    .main-content {
+        padding: 20px;
+    }
+
+    .main-layout {
+        flex-direction: column;
+    }
+
+    .composer-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn.publish {
+        align-self: flex-end;
+    }
+
+    .perfil {
+        padding: 20px;
+    }
+
+}

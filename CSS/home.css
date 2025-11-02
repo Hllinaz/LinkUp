@@ -1,0 +1,99 @@
+
+.composer {
+  background-color: var(--color-secundario-claro);
+  border-radius: var(--radio-borde);
+  padding: 25px 30px;
+  box-shadow: var(--sombra-tarjeta)
+}
+
+.composer h1 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.composer textarea {
+  width: 100%;
+  border: none;
+  border-radius: var(--radio-borde);
+  padding: 15px;
+  resize: none;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 4px var(--color-sombra) inset;
+  margin-bottom: 10px;
+  outline: none;
+}
+
+.composer textarea::placeholder {
+  color: #999;
+}
+
+.composer-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.left-tools {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.tool {
+  background: none;
+  border: none;
+  color: var(--color-texto);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.tool:hover {
+  color: var(--color-primario);
+}
+
+.feed {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.card.connections {
+  background-color: var(--color-secundario-claro);
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: var(--sombra-tarjeta);
+
+  /* fuerza proporción cuadrada */
+  aspect-ratio: 1 / 1;
+
+  /* que el ancho se ajuste al contenido, pero con un mínimo y máximo */
+  width: max-content;
+  min-width: 180px;
+  max-width: 320px;
+
+  /* evita desbordes si el contenido fuese grande */
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.card.connections h4 {
+  margin: 0 0 8px 0;
+  word-break: break-word;
+}
+
+.card.connections p {
+  margin: 0 0 12px 0;
+}
+

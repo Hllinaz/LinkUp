@@ -1,0 +1,146 @@
+
+/* ========== PERFIL DE EDICIÓN ========== */
+.perfil-editar {
+    border-radius: 20px;
+    box-shadow: var(--sombra-tarjeta);
+    flex: 1;
+    padding: 40px 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: var(--color-fondo);
+}
+
+.perfil-editar h1 {
+    font-size: 2rem;
+    color: #1e1e2a;
+}
+
+.usuario-handle {
+    color: #5f5f6a;
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+}
+
+.estadisticas {
+    display: flex;
+    gap: 20px;
+    font-size: 0.95rem;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/* ========== INTERESES ========== */
+.intereses-activos {
+    display: flex;
+    gap: 10px;
+    margin: 10px 0 25px 0;
+    flex-wrap: wrap;
+}
+
+.interes-tag {
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    padding: 6px 15px;
+    font-size: 0.85rem;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+    cursor: default;
+}
+
+/* ========== FORMULARIO DE EDICIÓN ========== */
+.form-editar {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 90%;
+    max-width: 500px;
+}
+
+.form-editar label {
+    font-weight: 600;
+    color: #1e1e2a;
+    font-size: 0.9rem;
+}
+
+.form-editar input {
+    background-color: #d9e3e3;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 15px;
+    font-size: 0.9rem;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.form-editar input:focus {
+    background-color: #e7eeee;
+    box-shadow: 0 0 0 2px #2b2c3a50;
+}
+
+.btn.guardar {
+    align-self: flex-start;
+    margin-top: 10px;
+    padding: 8px 20px;
+    border-radius: 25px;
+}
+
+/* ====== BOTÓN DE ELIMINAR INTERÉS ====== */
+.interes-tag {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    padding: 6px 15px;
+    font-size: 0.85rem;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+    cursor: default;
+}
+
+.remove-btn {
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    background-color: #ff6b6b;
+    border: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    transition: 0.2s;
+}
+
+.remove-btn:hover {
+    background-color: #e24343;
+    transform: scale(1.1);
+}
+
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 1000px) {
+    .main-layout {
+        flex-direction: column;
+    }
+
+    .sidebar,
+    .panel-derecho {
+        width: 100%;
+    }
+
+    .perfil-editar {
+        padding: 20px;
+    }
+
+    .form-editar {
+        width: 100%;
+    }
+}

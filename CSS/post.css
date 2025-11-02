@@ -1,0 +1,63 @@
+/* Estilo de cada publicación (article.post) */
+.post {
+    background-color: var(--color-blanco);
+    border-radius: var(--radio-borde);
+    box-shadow: var(--sombra-tarjeta);
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding: 1.5rem 2rem;
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem; /* Menos espacio si no hay contenido entre header y footer */
+}
+
+.post-author-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.post-author-username {
+    font-size: 0.9rem;
+    color: var(--color-texto-secundario);
+    margin-left: 0.5rem; /* Espacio entre el nombre y el @username */
+}
+
+/* Contenedor principal de los stats y acciones (el footer del post) */
+.post-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem; /* Espacio de separación (simula el contenido) */
+    border-top: 1px solid var(--color-fondo); /* Línea sutil de separación */
+    margin-top: 1rem;
+}
+
+/* Grupo de botones de "Me gusta" y "Comentarios" */
+.post-stats {
+    display: flex;
+    gap: 1.5rem; /* Espacio entre "Me gusta" y "Comentarios" */
+}
+
+.stat-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: none;
+    border: none;
+    color: var(--color-texto-secundario);
+    cursor: pointer;
+    padding: 0; /* Eliminar padding por defecto del botón */
+}
+
+.stat-btn i {
+    font-size: 1.05rem;
+}
+
+/* Grupo de botones de "Editar" y "Eliminar" */
+.post-actions {
+    display: flex;
+    gap: 0.5rem; /* Espacio entre los botones de acción */
+}

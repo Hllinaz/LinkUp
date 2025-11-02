@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editar Perfil | LinkUp</title>
+    <link rel="stylesheet" href="CSS/root.CSS" /> <!-- CSS para probar como se ve-->
+    <link rel="stylesheet" href="CSS/settings.CSS" /> <!-- CSS para probar como se ve-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- iconos -->
+</head>
+
+<body>
+
+
+    <main class="main-layout">
+        <!-- Sección central: Edición del perfil -->
+        <section class="perfil-editar">
+            <h1 class="name">John Done</h1>
+            <p class="username">@RealJohnDone</p>
+
+            <div class="estadisticas">
+                <span class="friends">0 Amigos</span>
+                <span class="posts">0 Publicaciones</span>
+            </div>
+
+            <h3>Intereses</h3>
+            <div class="intereses-activos" id="intereses-activos">
+                <template id="template-tag">
+                    <div class="interes-tag">
+                        <span>Deep Learning</span>
+                        <button class="remove-btn">−</button>
+                    </div>
+                </template>
+            </div>
+
+
+            <form class="form-editar">
+                <label>Nombre completo</label>
+                <input id="name" type="text" placeholder="John Done" />
+
+                <label>Usuario</label>
+                <input id="username" type="text" placeholder="@RealJohnDone" />
+
+                <label>Correo electrónico</label>
+                <input id="email" type="email" placeholder="john@example.com" />
+
+                <label>Contraseña</label>
+                <input id="password" type="password" placeholder="••••••••" />
+
+                <button type="submit" class="btn ver guardar" id="save-settings">Guardar cambios</button>
+            </form>
+        </section>
+    </main>
+</body>
+
+</html>

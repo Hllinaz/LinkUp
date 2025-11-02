@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Perfil | LinkUp</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- iconos -->
+    <link rel="stylesheet" href="CSS/root.css" />
+    <link rel="stylesheet" href="CSS/profile.css" />
+</head>
+
+<body>
+    <main>
+        <!-- Perfil principal -->
+        <!-- Aqui juega la Base de datos-->
+        <section class="perfil">
+            <h1 id="nombre-usuario"> John Done </h1>
+            <p id="usuario">@suario0</p>
+            <div class="estadisticas">
+                <span id="num-amigos"> 0 </span> Amigos ·
+                <span id="num-publicaciones"> 0 </span> Publicaciones
+            </div>
+
+            <button class="btn" id="settings">Editar perfil</button>
+            <button class="btn seguir">Seguir</button>
+            <button class="btn" id="graph">Grafo</button>
+
+            <h3>Intereses</h3>
+            <div id="lista-intereses">
+                <ul>
+                    <template id="interest-template">
+                        <li>Desarrollo Web</li>
+                    </template>
+                </ul>
+            </div>
+
+            <div class="feed">
+            </div>
+        </section>
+    </main>
+</body>
+
+</html>

@@ -1,0 +1,86 @@
+.perfil {
+  flex: 1;
+  padding: 40px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background-color: var(--color-fondo);
+  border-radius: 20px;
+  box-shadow: var(--sombra-tarjeta);
+}
+
+.perfil h1 {
+  font-size: 2rem;
+  color: var(--color-texto-principal);
+}
+
+#usuario {
+  color: var(--color-texto-secundario);
+  font-size: 0.95rem;
+}
+
+.estadisticas {
+  color: var(--color-texto-secundario);
+  font-size: 0.9rem;
+  display: flex;
+  gap: 20px;
+  margin-top: 5px;
+}
+
+#lista-intereses ul {
+  list-style: none;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+#lista-intereses li {
+  background-color: var(--color-blanco);
+  border-radius: 20px;
+  padding: 6px 15px;
+  font-size: 0.85rem;
+  box-shadow: 0 2px 3px var(--color-sombra);
+}
+
+.interes-boton {
+  width: 100%;
+  background-color: var(--color-blanco);
+  border: none;
+  border-radius: 25px;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px var(--color-sombra);
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.interes-boton:hover {
+  transform: translateY(-2px);
+  background-color: #f3f6f6;
+}
+
+.interes-boton i {
+  font-size: 0.9rem;
+  color: var(--color-primario-oscuro);
+}
+
+.otro {
+  background-color: var(--color-primario-oscuro);
+  color: var(--color-blanco);
+  width: 100%;
+  margin-top: 10px;
+  font-weight: 600;
+  padding: 10px 15px;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+}
+
+.otro:hover {
+  opacity: 0.85;
+}
