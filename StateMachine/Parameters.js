@@ -27,7 +27,7 @@ function EXPLORE() {
     return [
         {
             key: 'explore-user',
-            url: `${API}/recommendations/users`,
+            url: `${API}/analytics/recommendations`,
             options: {
                 method: 'GET',
                 headers: authHeaders()
@@ -35,7 +35,7 @@ function EXPLORE() {
         },
         {
             key: 'explore-top',
-            url: `${API}/analytics/top-users`,
+            url: `${API}/analytics/top`,
             options: {
                 method: 'GET',
                 headers: authHeaders()
@@ -43,7 +43,7 @@ function EXPLORE() {
         },
         {
             key: 'explore-communities',
-            url: `${API}/explore/communities`
+            url: `${API}/analytics/communities`
         },
         {
             key: 'index/discover',
@@ -52,23 +52,11 @@ function EXPLORE() {
     ];
 }
 
-function ANALYTICS() {
-    return [
-        {
-            key: 'top-user',
-            url: `${API}/analytics/top-users`,
-            options: {
-                method: 'GET'
-            }
-        }
-    ]
-}
-
 function SETTINGS() {
     return [
         {
             key: 'profile',
-            url: `${API}/me`,
+            url: `${API}/users/me`,
             options: {
                 method: 'GET',
                 headers: authHeaders()
@@ -85,7 +73,7 @@ function WEB() {
     return [
         {
             key: 'web-user',
-            url: `${API}/recommendations/users`,
+            url: `${API}/analytics/recommendations`,
             options: {
                 method: 'GET',
                 headers: authHeaders()
@@ -93,7 +81,7 @@ function WEB() {
         },
         {
             key: 'web-profile',
-            url: `${API}/me`,
+            url: `${API}/users/me`,
             options: {
                 method: 'GET',
                 headers: authHeaders()
@@ -101,7 +89,7 @@ function WEB() {
         },
         {
             key: 'web-interests',
-            url: `${API}/me/interests`,
+            url: `${API}/users/me/interests`,
             options: {
                 method: 'GET',
                 headers: authHeaders()
@@ -114,7 +102,7 @@ function ME(username) {
     return [
         {
             key: 'ME',
-            url: `${API}/me/${username}`,
+            url: `${API}/users/me/${username}`,
             options: {
                 method: 'GET',
                 headers: authHeaders()
@@ -155,7 +143,7 @@ function PROFILE(username, isMe) {
             },
             {
                 key: 'isFollowing',
-                url: `${API}/follow/${username}`,
+                url: `${API}/users/follow/${username}`,
                 options: {
                     method: 'GET',
                     headers: authHeaders()
@@ -177,7 +165,7 @@ function COMMENTS(id) {
         },
         {
             key: 'comments',
-            url: `${API}/posts/${id}/comments`,
+            url: `${API}/comments/${id}`,
             options: {
                 method: 'GET',
                 headers: authHeaders()

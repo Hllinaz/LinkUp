@@ -11,7 +11,7 @@ class StateError extends StateBaseHTML {
 class Post extends StateBase{
     queryParams;
 
-    constructor(text){
+    constructor(data){
         super();
         this.queryParams = [
             {
@@ -19,11 +19,8 @@ class Post extends StateBase{
                 url: `${API}/posts`,
                 options: {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json', 
-                        ...authHeaders()
-                    },
-                    body: JSON.stringify({ text , imageUrl: ''})
+                    headers: authHeaders(),
+                    body: data
                 }
             }
         ];   
@@ -56,7 +53,7 @@ class Follow extends StateBase{
         this.queryParams = [
             {
                 key: 'delete-post',
-                url: `${API}/follow/${username}`,
+                url: `${API}/users/follow/${username}`,
                 options: { 
                     method: 'POST', 
                     headers: authHeaders() 
@@ -74,7 +71,7 @@ class Unfollow extends StateBase{
         this.queryParams = [
             {
                 key: 'delete-post',
-                url: `${API}/follow/${username}`,
+                url: `${API}/users/follow/${username}`,
                 options: { 
                     method: 'DELETE', 
                     headers: authHeaders() 
@@ -112,7 +109,7 @@ class SaveSettings extends StateBase{
         this.queryParams = [
             {
                 key: 'save-settings',
-                url: `${API}/me`,
+                url: `${API}/users/me`,
                 options: {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json', ...authHeaders() },
@@ -120,7 +117,7 @@ class SaveSettings extends StateBase{
                 }
             },{
                 key: 'save-settings',
-                url: `${API}/me/interests`,
+                url: `${API}users/me/interests`,
                 options: {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json', ...authHeaders() },
@@ -142,7 +139,7 @@ class comment extends StateBase{
         this.queryParams = [
             {
                 key: 'save-settings',
-                url: `${API}/posts/${id}/comments`,
+                url: `${API}/comments/${id}`,
                 options: {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', ...authHeaders() },

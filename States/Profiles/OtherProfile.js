@@ -11,7 +11,6 @@ class OtherProfile extends StateBaseHTML {
     async loadProfile() {
         const author = this.data['profile'];
         const template = this.data['index/profile'];
-        console.log(template)
         const main = b(template, 'main');
         $('#nombre-usuario', main).textContent = author.name;
         $('#usuario', main).textContent = '@' + author.username;

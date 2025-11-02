@@ -33,7 +33,6 @@ class MyProfile extends StateBaseHTML {
         const posts = author.posts
         const template = h(this.data['template/post']);
         const box = $('.feed');
-        console.log(box)
         box.appendChild(h('<h3>Mis posts</h3>'))
         posts.forEach(post => {
             const panel = template.cloneNode(true);

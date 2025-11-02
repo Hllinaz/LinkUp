@@ -25,6 +25,31 @@
     margin-left: 0.5rem; /* Espacio entre el nombre y el @username */
 }
 
+.post-body {
+    text-align: left;
+}
+
+.post-text {
+    margin-bottom: 16px;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.post-image-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 12px 0;
+    padding: 8px;
+    border-radius: 16px;
+}
+
+.post-image {
+    max-width: min(100%, 400px);
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    border: 1px solid var(--color-fondo);
+}
 /* Contenedor principal de los stats y acciones (el footer del post) */
 .post-footer {
     display: flex;

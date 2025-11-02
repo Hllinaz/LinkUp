@@ -1,5 +1,5 @@
-class Home extends StateBaseHTML{
-    async render () {
+class Home extends StateBaseHTML {
+    async render() {
         await this.loadHome();
         await this.loadPost();
     }
@@ -19,26 +19,36 @@ class Home extends StateBaseHTML{
             const author = user.author
             const post = user.post
             $('.post-author-name', panel).textContent = author.name
-            $('.post-author-username', panel).textContent = '@' + author.username + ' · ' 
-            + post.createdAt.year.low + '/' + post.createdAt.month.low + '/' + post.createdAt.day.low
+            $('.post-author-username', panel).textContent = '@' + author.username + ' · '
+                + post.createdAt.year.low + '/' + post.createdAt.month.low + '/' + post.createdAt.day.low
             $('.post-body', panel).textContent = post.text
+            if (post.imageUrl) {
+                const wrapper = document.createElement('div');
+                wrapper.setAttribute('class', 'post-image-wrapper');
+                const img = document.createElement('img');
+                img.src = `${API}${post.imageUrl}`;
+                img.setAttribute('class', 'post-image')
+                wrapper.appendChild(img);
+                $('.post-body', panel).appendChild(wrapper)
+            }
             $('.comments', panel).setAttribute('data-post', post.id)
             $('.comments', panel).textContent = user.comments.low + ' comentarios';
-            if (!user.isOwner){
+            if (!user.isOwner) {
                 $('.btn.borrar', panel).remove()
             } else {
                 $('.btn.borrar', panel).setAttribute('data-delete', post.id)
             }
             $('.btn.ver', panel).setAttribute('data-view', author.username)
             box.appendChild(panel);
-        });    
+        });
     }
 
-    async bindEvents () {
+    async bindEvents() {
         hookCreatePost();
+
     }
 }
 
-function getHome () {
-  return new Home(HOME(), '.content-feed')
+function getHome() {
+    return new Home(HOME(), '.content-feed')
 }

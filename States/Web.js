@@ -33,6 +33,7 @@ class Web extends StateBaseHTML {
 
     async userInterest() {
         const data = this.data['web-interests'];
+        console.log(data)
     }
 
     async cleanWeb(){

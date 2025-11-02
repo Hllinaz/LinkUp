@@ -34,7 +34,6 @@ class Query extends StateBase {
 
             const queryPromises = this.queryParams.map(async (params, index) => {
                 try {
-                    console.log(params.url)
                     const response = await fetch(params.url, params.options);
                     if (!response.ok) {
                         throw new Error(`HTTP ${response.status}`);

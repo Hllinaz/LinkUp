@@ -123,24 +123,3 @@
     background-color: #e24343;
     transform: scale(1.1);
 }
-
-
-/* ========== RESPONSIVE ========== */
-@media (max-width: 1000px) {
-    .main-layout {
-        flex-direction: column;
-    }
-
-    .sidebar,
-    .panel-derecho {
-        width: 100%;
-    }
-
-    .perfil-editar {
-        padding: 20px;
-    }
-
-    .form-editar {
-        width: 100%;
-    }
-}

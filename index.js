@@ -64,13 +64,35 @@ function hookUnfollowing() {
 function hookCreatePost() {
   const form = $('.composer');
   const input = $('#create-post');
+  const image = $('#image')
   form.addEventListener('submit', (e) => {
     e.preventDefault()
-    submitImage()
-    const text = input.value.trim();
-    if (!text) return;
+    const data = new FormData();
+    const text = input.value.trim()
+
+    if (!text) return
+    data.append('text', text);
+
+    if (image.value) {
+      const file = image.files[0]
+
+      const allowed = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp', 'image/gif'];
+      if (!allowed.includes(file.type)) {
+        alert('Formato no permitido. Usa PNG, JPG, WEBP o GIF.');
+        imageInput.value = '';
+        return;
+      }
+
+      const MAX_MB = 5;
+      if (file.size > MAX_MB * 1024 * 1024) {
+        alert(`La imagen supera ${MAX_MB} MB.`);
+      }
+
+      data.append('file', file);
+    }
+
     try {
-      AppStateMachine.executeAction(new Post(text));
+      AppStateMachine.executeAction(new Post(data));
       input.value = '';
     } catch (err) {
       console.error('Error creating post:', err);
