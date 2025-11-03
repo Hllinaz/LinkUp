@@ -18,3 +18,4 @@ export async function comparePassword(password, hash) {
 export function asInt(n) {
   return typeof n?.toInt === 'function' ? n.toInt() : n;
 }
+

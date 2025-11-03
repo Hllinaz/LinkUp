@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Index - LinkUp</title>
+
+    <!-- Font Awesome (iconos) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity=""
+        crossorigin="anonymous">
+
+    <!-- CSS corregido -->
+    <link rel="stylesheet" href="./CSS/root.css" />
+    <link rel="stylesheet" href="./CSS/index.css" />
+    <link rel="stylesheet" href="./CSS/home.css" />
+    <link rel="stylesheet" href="./CSS/profile.css" />
+    <link rel="stylesheet" href="./CSS/discover.css" />
+    <link rel="stylesheet" href="./CSS/settings.css" />
+    <link rel="stylesheet" href="./CSS/post.css" />
+    <link rel="stylesheet" href="./CSS/comments.css" />
+    <link rel="stylesheet" href="./CSS/response.css" />
+    <link rel="stylesheet" href="./CSS/interest.css" />
+    <link rel="stylesheet" href="./CSS/graph.css" />
+</head>
+
+<body>
+    <header class="header">
+        <div class="logo-container">
+            <img src="./img/img-logo.png" alt="Logo LinkUp" class="logo-img" />
+        </div>
+        <h2 class="user-greeting">¡Hola <span id="nombre-usuario">Invitado</span>!</h2>
+    </header>
+
+    <main class="main-layout">
+        <aside class="sidebar-left">
+            <nav class="main-nav">
+                <ul>
+                    <li id="home"><a href="#"><i class="fa-solid fa-house"></i> <span>Inicio</span></a></li>
+                    <li id="perfil"><a href="#"><i class="fa-solid fa-user"></i> <span>Perfil</span></a></li>
+                    <li id="explore"><a href="#"><i class="fa-solid fa-magnifying-glass"></i> <span>Explorar</span></a>
+                    </li>
+                    <li id="logout"><a href="#"><i class="fa-solid fa-right-from-bracket"></i> <span>Cerrar
+                                sesión</span></a></li>
+                </ul>
+            </nav>
+
+            <section class="sugerencias">
+                <h3>Usuarios que quizás conozcas</h3>
+
+                <template id="user-template">
+                    <div class="usuario">
+                        <span class="name">Edward Nand</span>
+                        <div class="acciones">
+                            <button class="btn seguir">Seguir</button>
+                            <button class="btn ver">Ver</button>
+                        </div>
+                    </div>
+                </template>
+
+            </section>
+        </aside>
+
+        <section class="content-feed">
+        </section>
+
+        <aside class="sidebar-right">
+            <!-- Panel derecho -->
+            <aside class="other-panel"></aside>
+
+            <aside class="right-panel" id="conection-panel">
+                <div class="card connections">
+                    <h4>Explora tus conexiones</h4>
+                    <p>Encuentra y conecta con personas que comparten tus intereses.</p>
+                </div>
+            </aside>
+
+            <aside class="right-panel" id="interest-panel">
+                <h3>Añadir intereses</h3>
+                <div class="interest">
+                    <template class="template-interest">
+                        <button class="interest-boton"><span class="name"> Programación </span><i>+</i></button>
+                    </template>
+                </div>
+                <button class="otro" id="btn-nuevo-interes"> Otro </button>
+            </aside>
+        </aside>
+
+        <!-- Modal para nuevo interés -->
+        <div class="modal-interes" id="modal-interes">
+            <div class="modal-content">
+                <h3>Crear nuevo interés</h3>
+                <input type="text" id="input-interes" placeholder="Ej: Fotografía, Cocina, Viajes..." maxlength="30">
+                <div class="modal-actions">
+                    <button class="btn-cancelar" id="btn-cancelar">Cancelar</button>
+                    <button class="btn-crear" id="btn-crear">Crear</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
+    <script type="module" src="./index.js"></script>
+
+</body>
+</html>

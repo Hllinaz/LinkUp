@@ -9,15 +9,17 @@ import {
     getMe,
     putMe,
     getInterests,
-    createInterests
+    createInterests,
+    connectInterest
 } from '../controllers/userController.js';
 
 const router = express.Router();
 
 router.use(auth);
 
-router.get('/me/interests', requireAuth, getInterests);
-router.put('/me/interests', requireAuth, createInterests);
+router.get('/me/interests', requireAuth, getInterests)
+router.put('/me/interest', requireAuth, connectInterest);
+router.post('/me/interest', requireAuth, createInterests);
 router.get('/me/:id', requireAuth, isMe);
 router.get('/follow/:id', requireAuth, isFollowing);
 router.post('/follow/:id', requireAuth, Follow);

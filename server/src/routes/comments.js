@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.use(auth);
 
-router.post('/:id', requireAuth, getComments);
-router.post('/', requireAuth, createComments);
+router.get('/:id', requireAuth, getComments);
+router.post('/:id', requireAuth, createComments);
 
 export default router;

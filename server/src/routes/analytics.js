@@ -11,9 +11,9 @@ const router = express.Router();
 
 router.use(auth);
 
-router.get('/recommendations/', requireAuth, getRecommendations)
+router.get('/recommendations', requireAuth, getRecommendations)
 router.get('/communities', getCommunities)
-router.get('/top-users', getTop);
+router.get('/top', getTop);
 router.get('/graph/:username', getGraph);
 
 

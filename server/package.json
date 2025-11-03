@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "dev": "node server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "client": "cd ../client",
+    "dev:all": "concurrently \"npm run dev\" \"npm run client\""
   },
   "dependencies": {
     "cors": "^2.8.5",

@@ -1,4 +1,5 @@
 import driver from '../config/database.js';
+import { asInt } from '../utils/helpers.js'
 
 export const getRecommendations = async (req, res) => {
     if (!req.userId) return res.status(401).json({ error: 'No autenticado' });
@@ -72,40 +73,54 @@ export const getGraph = async (req, res) => {
     try {
         const { username } = req.params;
         const r = await session.run(`
-            MATCH (me:User {username: $userId})
-            // Usuarios que sigo
+            MATCH (me:User {username: $username})
+
+            // Siguiendo yo -> otros
             OPTIONAL MATCH (me)-[:FOLLOWS]->(f:User)
             WITH me, collect(DISTINCT f) AS following
 
-            // Usuarios que me siguen
+            // Otros -> me (seguidores)
             OPTIONAL MATCH (u:User)-[:FOLLOWS]->(me)
             WITH me, following, collect(DISTINCT u) AS followers
 
-            // Unir ambos conjuntos
+            // Vecindario (uniendo ambos lados)
             WITH me, following, followers, following + followers AS both
             UNWIND both AS n
             WITH me, following, followers, collect(DISTINCT n) AS neigh
 
-            // Construir nodos con propiedades
-            WITH me, following, followers, neigh,
-            [n IN neigh | {
-            id: n.id,
-            label: coalesce(n.name, n.username, n.email, n.id),
-                        i_follow: n IN following,
-                        follows_me: n IN followers,
-                        mutual: (n IN following) AND (n IN followers)
-            }] AS nodes
+            // IDs robustos:
+            // 1) username, 2) email, 3) elementId(n) como fallback
+            WITH
+            me,
+            following,
+            followers,
+                    neigh,
+                    coalesce(me.username, me.email, elementId(me)) AS meId,
+            [x IN neigh | coalesce(x.username, x.email, elementId(x))] AS neighIds,
+                    neigh AS neighNodes
 
-            // Construir relaciones
-            WITH me, nodes,
-            [n IN nodes WHERE n.i_follow   | {source: me.id, target: n.id, type: 'FOLLOWS'}] +
-            [n IN nodes WHERE n.follows_me | {source: n.id, target: me.id, type: 'FOLLOWS'}] AS links
+                // Construcción de nodos (me + vecinos) con flags
+            WITH me, meId, following, followers, neighNodes, neighIds,
+            [i IN range(0, size(neighNodes)-1) |
+            {
+            id: neighIds[i],
+            label: coalesce(neighNodes[i].name, neighNodes[i].username, neighNodes[i].email, neighIds[i]),
+            i_follow: neighNodes[i] IN following,
+            follows_me: neighNodes[i] IN followers,
+            mutual: (neighNodes[i] IN following) AND (neighNodes[i] IN followers)
+            }
+            ] AS nodes
+
+            // Links solo FOLLOWS con los mismos IDs
+            WITH me, meId, nodes,
+            [n IN nodes WHERE n.i_follow   | { source: meId, target: n.id, type: 'FOLLOWS' }] +
+            [n IN nodes WHERE n.follows_me | { source: n.id,  target: meId, type: 'FOLLOWS' }] AS links
 
             RETURN {
-            nodes: [{id: me.id, label: coalesce(me.name, me.username, me.email, me.id), isMe: true}] + nodes,
+            nodes: [{ id: meId, label: coalesce(me.name, me.username, me.email, meId), isMe: true }] + nodes,
             links: links
             } AS graph`,
-            { userId: username }
+            { username }
         );
         if (r.length === 0) {
             res.json({ nodes: [], links: [] });

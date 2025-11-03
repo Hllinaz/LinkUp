@@ -1,4 +1,5 @@
 import driver from '../config/database.js';
+import { hashPassword, sign } from '../utils/helpers.js'
 
 export const getUser = async (req, res) => {
     const session = driver.session();
@@ -90,7 +91,7 @@ export const Unfollow = async (req, res) => {
 }
 
 export const isMe = async (req, res) => {
-    
+
     if (!req.userId) return res.status(401).json({ error: 'No autenticado' });
     const session = driver.session();
     try {
@@ -104,8 +105,8 @@ export const isMe = async (req, res) => {
     } catch (e) {
         res.status(400).json({ error: e.message });
     }
-    finally { 
-        await session.close(); 
+    finally {
+        await session.close();
     }
 }
 
@@ -126,11 +127,11 @@ export const getMe = async (req, res) => {
             { me: req.userId }
         );
         res.json(r.records[0].get('me'));
-    } catch (e) { 
-        res.status(400).json({ error: e.message }); 
+    } catch (e) {
+        res.status(400).json({ error: e.message });
     }
-    finally { 
-        await session.close(); 
+    finally {
+        await session.close();
     }
 }
 
@@ -138,9 +139,9 @@ export const putMe = async (req, res) => {
     if (!req.userId) return res.status(401).json({ error: 'No autenticado' });
     const session = driver.session();
     try {
-        const { name, username, email, password } = req.body;
+        const { name, username, email, password, interest } = req.body;
         const hashedPassword = await hashPassword(password);
-
+        console.log(interest)
         const r = await session.run(`
             MATCH (user:User {username:$me})
             SET 
@@ -148,16 +149,30 @@ export const putMe = async (req, res) => {
             user.username = coalesce($username, user.username),
             user.email = coalesce($email, user.email), 
             user.password = coalesce($password, user.password)
-            RETURN user as updatedUser`,
-            { me: req.userId, username, name, password: hashedPassword, email }
+            WITH user
+            WHERE $interest IS NOT NULL AND size($interest) > 0
+            // Eliminar todas las relaciones de intereses existentes
+            OPTIONAL MATCH (user)-[r:INTEREST_IN]->(:Interest)
+            DELETE r
+
+            // Crear nuevos intereses y relaciones
+            WITH user
+            UNWIND $interest AS interestName
+            MERGE (interest:Interest {name: trim(toLower(interestName))})
+            MERGE (user)-[:INTEREST_IN]->(interest)
+
+            // Retornar el usuario actualizado
+            WITH DISTINCT user
+            RETURN user AS updatedUser`,
+            { me: req.userId, username, name, password: hashedPassword, email, interest }
         );
         const token = sign(username);
         res.json({ ok: true, token: token });
-    } catch (e) { 
-        res.status(400).json({ error: e.message }); 
+    } catch (e) {
+        res.status(400).json({ error: e.message });
     }
-    finally { 
-        await session.close(); 
+    finally {
+        await session.close();
     }
 }
 
@@ -166,7 +181,7 @@ export const getInterests = async (req, res) => {
 
     const session = driver.session();
     try {
-        
+
         const r = await session.run(`
             MATCH (i:Interest)
             WHERE not (:User {username:$me})-[:INTEREST_IN]-(i)
@@ -174,35 +189,50 @@ export const getInterests = async (req, res) => {
             { me: req.userId }
         );
         const interests = r.records[0].get('interest')
-        res.json({interest: interests});
-    } catch (e) { 
-        res.status(400).json({ error: e.message }); 
+        res.json({ interest: interests });
+    } catch (e) {
+        res.status(400).json({ error: e.message });
     }
-    finally { 
-        await session.close(); 
+    finally {
+        await session.close();
     }
 }
 
 export const createInterests = async (req, res) => {
     if (!req.userId) return res.status(401).json({ error: 'No autenticado' });
-
     const session = driver.session();
     try {
-        const { interests = [] } = req.body; // ["music","tech"]
+        const { interest } = req.body;
         await session.run(`
-            MATCH (u:User {username:$me})
-            OPTIONAL MATCH (u)-[r:INTEREST_IN]->(:Interest) DELETE r`,
-            { me: req.userId }
+            CREATE (i:Interest {name: $interest})
+            WITH i
+            MATCH (i:Interest {name: $interest})
+            MATCH (u:User {username: $me})
+            CREATE (u)-[:INTEREST_IN]->(i)`,
+            { interest, me: req.userId }
         );
-        if (interests.length) {
-            await session.run(`
-                UNWIND $ints AS n
-                MATCH (u:User {username:$me})
-                MERGE (i:Interest {name:trim(toLower(n))})
-                MERGE (u)-[:INTEREST_IN]->(i)`,
-                { me: req.userId, ints: interests }
-            );
-        }
+
+        res.json({ ok: true });
+    } catch (e) {
+        res.status(400).json({ error: e.message });
+    }
+    finally {
+        await session.close();
+    }
+}
+
+export const connectInterest = async (req, res) => {
+    if (!req.userId) return res.status(401).json({ error: 'No autenticado' });
+    const session = driver.session();
+    try {
+        const { interest } = req.body;
+        await session.run(`
+            MATCH (i:Interest {name: $interest})
+            MATCH (u:User {username: $me})
+            CREATE (u)-[:INTEREST_IN]->(i)`,
+            { interest, me: req.userId }
+        );
+
         res.json({ ok: true });
     } catch (e) {
         res.status(400).json({ error: e.message });
