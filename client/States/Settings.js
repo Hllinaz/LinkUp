@@ -18,7 +18,7 @@ export class Settings extends StateBaseHTML{
         const main = b(this.data['index/settings'], 'main')
         $('.name', main).textContent = author.name
         $('.username', main).textContent = '@' + author.username
-        $('.estadisticas .friends', main).textContent = author.friends.low + ' Amigos'
+        $('.estadisticas .friends', main).textContent = author.friends.low + (author.friends.low === 1 ? ' Seguidor' : ' Seguidores')
         $('.estadisticas .posts', main).textContent = author.posts.low + ' Publicaciones'
 
         const tag = $('#intereses-activos', main)

@@ -1,7 +1,7 @@
 import {
     StateBaseHTML,
     Parameters,
-    $
+    $, h
 } from "./index.js";
 
 export class Graph extends StateBaseHTML {
@@ -12,6 +12,7 @@ export class Graph extends StateBaseHTML {
 
     async loadGraph() {
         const canvas = this.root.querySelector('#graph-canvas');
+
         // La StateMachine deja los resultados en this.data
         console.debug('[GRAPH] data keys =>', Object.keys(this.data || {}));
         const payload = this.data && this.data['index/graph'];
@@ -26,7 +27,8 @@ export class Graph extends StateBaseHTML {
             return;
         }
 
-        const graph  = payload.graph._fields[0]; // { nodes: [...], links: [...] }
+        const graph = payload.graph._fields[0]; // { nodes: [...], links: [...] }
+        console.log(graph)
         console.debug('[GRAPH] counts:', graph.nodes?.length, graph.links?.length);
         // Si no hay vecinos (o nada), avisar.
         // (Con la query robusta, como mínimo vendrá el nodo "me")
@@ -100,6 +102,11 @@ export class Graph extends StateBaseHTML {
 
         // Ajuste automático de vista
         cy.ready(() => cy.fit());
+        
+        console.log(graph.nodes[0].id)
+        const button = h('<button class="btn ver">Volver</button>')
+        button.setAttribute('data-view', graph.nodes[0].id)
+        canvas.appendChild(button)
     }
 }
 

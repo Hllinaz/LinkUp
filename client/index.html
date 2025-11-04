@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="./CSS/response.css" />
     <link rel="stylesheet" href="./CSS/interest.css" />
     <link rel="stylesheet" href="./CSS/graph.css" />
+    <link rel="stylesheet" href="./CSS/communities.css" />
 </head>
 
 <body>
@@ -69,10 +70,22 @@
             <aside class="other-panel"></aside>
 
             <aside class="right-panel" id="conection-panel">
+                <h4>Explora tus conexiones</h4>
+                <p>Encuentra y conecta con personas que comparten tus intereses.</p>
                 <div class="card connections">
-                    <h4>Explora tus conexiones</h4>
-                    <p>Encuentra y conecta con personas que comparten tus intereses.</p>
-                </div>
+                    <template id="template-community">
+                        <button class="interest-btn" data-target="programacion">
+                            <div class="interest-info">
+                                <span class="interest-name">Programación</span>
+                                <span class="interest-count">3</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+                        <div class="interest-content" id="programacion">
+                            <div class="connected-users">
+                            </div>
+                        </div>
+                    </template>
             </aside>
 
             <aside class="right-panel" id="interest-panel">
@@ -104,4 +117,5 @@
     <script type="module" src="./index.js"></script>
 
 </body>
+
 </html>

@@ -1,7 +1,7 @@
 import {
     StateBaseHTML,
     Parameters,
-    $,
+    $, h,
     $all, Interest
 } from "./index.js";
 
@@ -17,6 +17,7 @@ export class Web extends StateBaseHTML {
         await this.userProfile();
         await this.userRecommended();
         await this.userInterest();
+        await this.communities();
     }
 
     async userRecommended() {
@@ -52,11 +53,37 @@ export class Web extends StateBaseHTML {
 
     }
 
+    async communities() {
+        const data = this.data['web-communities'];
+        const template = $('#template-community');
+        data.forEach(element => {
+            const card = template.content.cloneNode('true');
+            $('.interest-btn', card).setAttribute('data-target', element.interest)
+            $('.interest-content', card).setAttribute('id', element.interest)
+            $('.interest-name', card).textContent = element.interest;
+            $('.interest-count', card).textContent = element.users.length;
+            //card.setAttribute('data-view', element.interest);
+            element.users.forEach(user => {
+                const button = `
+                <button class="user-tag" data-view="${user.username}">
+                    <i class="fa-solid fa-user"></i> ${user.name} 
+                </button>`;
+                $('.connected-users', card).append(h(button))
+            });
+
+            $('.card.connections').appendChild(card)
+        });
+    }
+
     async cleanWeb() {
         const dynamicUsers = $all('.sugerencias .usuario');
         if (dynamicUsers) dynamicUsers.forEach(user => user.remove());
         const dynamicInterests = $all('.interest .interest-boton');
         if (dynamicInterests) dynamicInterests.forEach(interest => interest.remove())
+        const dynamicCommunity = $all('.card.connections .interest-btn');
+        if (dynamicCommunity) dynamicCommunity.forEach(interest => interest.remove())
+        const dynamicContent = $all('.card.connections .interest-content');
+        if (dynamicContent) dynamicContent.forEach(interest => interest.remove())
 
         $('.content-feed').innerHTML = '';
         $('.other-panel').innerHTML = '';
@@ -96,6 +123,30 @@ export class Web extends StateBaseHTML {
             const name = $('.name', e.target).textContent;
             AppStateMachine.executeAction(new Interest(name, 'PUT'))
         });
+
+        const interestButtons = $all('.interest-btn');
+
+        interestButtons.forEach(button => {
+            button.addEventListener('click', async function () {
+                const targetId = this.getAttribute('data-target');
+                const content = $(`#${targetId}`);
+
+                // Cerrar otros contenidos abiertos
+                interestButtons.forEach(otherBtn => {
+                    if (otherBtn !== this) {
+                        const otherTarget = otherBtn.getAttribute('data-target');
+                        const otherContent = $(`#${otherTarget}`);
+                        otherBtn.classList.remove('active');
+                        if (otherContent) otherContent.classList.remove('active');
+                    }
+                });
+
+                // Alternar el contenido actual
+                this.classList.toggle('active');
+                content.classList.toggle('active');
+            });
+        });
+
     }
 
 }
@@ -113,7 +164,7 @@ function cerrarModal() {
 
 async function crearInteres() {
     const name = $('#input-interes').value.trim();
-    
+
     if (name.length < 2) {
         alert('El interés debe tener al menos 2 caracteres');
         return;
@@ -150,7 +201,7 @@ function mostrarNotificacion(mensaje) {
     `;
     notificacion.textContent = mensaje;
     document.body.appendChild(notificacion);
-    
+
     setTimeout(() => {
         document.body.removeChild(notificacion);
     }, 3000);

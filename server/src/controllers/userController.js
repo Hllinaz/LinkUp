@@ -10,6 +10,8 @@ export const getUser = async (req, res) => {
 
             OPTIONAL MATCH (u)-[:INTEREST_IN]->(i:Interest)
             WITH u, collect(i.name) AS interests
+            OPTIONAL MATCH (u)<-[:FOLLOWS]-(otherUser:User)
+            WITH u, interests, count(otherUser) as followers
 
             CALL (u) {
             MATCH (u:User)-[:HAS_POST]->(p:Post)
@@ -18,11 +20,12 @@ export const getUser = async (req, res) => {
             RETURN collect(p{.*, id:p.id, comments: comments}) as posts
             }
 
-            WITH DISTINCT u, interests, posts
+            WITH DISTINCT u, interests, posts, followers
             RETURN {
             username: u.username,
             name: u.name,
             interests: interests,
+            followers: followers,
             posts: posts } AS profile `,
             { username: id }
         );
@@ -140,7 +143,7 @@ export const putMe = async (req, res) => {
     const session = driver.session();
     try {
         const { name, username, email, password, interest } = req.body;
-        const hashedPassword = await hashPassword(password);
+        if (password) hashedPassword = await hashPassword(password);
         console.log(interest)
         const r = await session.run(`
             MATCH (user:User {username:$me})

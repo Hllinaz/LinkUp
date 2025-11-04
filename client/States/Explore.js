@@ -1,11 +1,11 @@
-import { 
+import {
     StateBaseHTML,
     Parameters,
     $, b
 } from "./index.js";
 
 export class Explore extends StateBaseHTML {
-    async render () {
+    async render() {
         await this.loadExplore();
     }
 
@@ -31,6 +31,7 @@ export class Explore extends StateBaseHTML {
             container.appendChild(temp)
         });
     }
+
     async loadTop(main) {
         const users = this.data['explore-top'];
         const container = $('#top-container', main)
@@ -41,12 +42,23 @@ export class Explore extends StateBaseHTML {
             $('.name', temp).textContent = user.name
             $('.btn.ver', temp).setAttribute('data-view', user.username)
             $('.btn.seguir', temp).textContent = 'Seguir'
-            $('.btn.seguir', temp).setAttribute('data-follow', user.username)
+            $('.followers', temp).textContent = user.followers + (user.followers === 1 ? ' Seguidor' : ' Seguidores')
+            if (user.isMe) {
+                $('.btn.seguir', temp).remove()
+            } else {
+                if (user.isFollowing) {
+                    $('.btn.seguir', temp).textContent = 'Siguiendo'
+                    $('.btn.seguir', temp).setAttribute('data-unfollow', user.username)
+                } else {
+                    $('.btn.seguir', temp).textContent = 'Seguir'
+                    $('.btn.seguir', temp).setAttribute('data-follow', user.username)
+                }
+            }
             container.appendChild(temp)
         });
     }
 }
 
-export function getExplore () {
-  return new Explore(Parameters.EXPLORE(), '.content-feed')
+export function getExplore() {
+    return new Explore(Parameters.EXPLORE(), '.content-feed')
 }

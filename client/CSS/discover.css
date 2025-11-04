@@ -32,3 +32,7 @@
     justify-content: space-between;
     align-items: center;
 }
+
+.card:has(#top-container) {
+    width: fit-content;
+}

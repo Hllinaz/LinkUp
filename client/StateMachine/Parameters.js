@@ -97,6 +97,13 @@ export class Parameters {
                     method: 'GET',
                     headers: authHeaders()
                 }
+            },
+            {
+                key: 'web-communities',
+                url: `${API}/analytics/communities`,
+                options: {
+                    method: 'GET'
+                }
             }
         ]
     }

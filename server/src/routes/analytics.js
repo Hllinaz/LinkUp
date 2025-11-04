@@ -13,7 +13,7 @@ router.use(auth);
 
 router.get('/recommendations', requireAuth, getRecommendations)
 router.get('/communities', getCommunities)
-router.get('/top', getTop);
+router.get('/top', requireAuth, getTop);
 router.get('/graph/:username', getGraph);
 
 

@@ -9,6 +9,7 @@
 
     .sidebar,
     .right-panel {
+         padding: 12px;
         width: 100%;
     }
 
@@ -31,6 +32,11 @@
 
     .perfil {
         padding: 20px;
+    }
+
+
+    .sidebar-right {
+        gap: 15px;
     }
 
 }

@@ -30,11 +30,22 @@ export const getRecommendations = async (req, res) => {
 export const getCommunities = async (req, res) => {
     const session = driver.session();
     try {
-        const r = await session.run( `
+        const r = await session.run(`
             MATCH (i:Interest)<-[:INTEREST_IN]-(u:User)
-            RETURN i.name AS name, count(u) AS members
-            ORDER BY members DESC, name ASC
-            LIMIT 20 `);
+            WITH i as interest, collect(DISTINCT u{name: u.name, username: u.username}) as user
+            RETURN collect({interest: interest.name, users: user}) as communities`);
+        const rec = r.records[0]
+        res.json(rec.get('communities'));
+    } catch (e) { res.status(400).json({ error: e.message }); }
+    finally { await session.close(); }
+}
+
+export const getUser = async (req, res) => {
+    const session = driver.session();
+    try {
+        const r = await session.run(`
+            MATCH (i:Interest)<-[:INTEREST_IN]-(u:User)
+            RETURN i as interest`);
         res.json(r.records.map(rec => ({
             name: rec.get('name'),
             members: asInt(rec.get('members'))
@@ -50,10 +61,14 @@ export const getTop = async (req, res) => {
         const r = await session.run(`
             MATCH (u:User)
             OPTIONAL MATCH (u)<-[:FOLLOWS]-(:User)
-            WITH u, count(*) AS followers
-            RETURN u{.*, username:u.username, followers: followers}
+            WITH u, count(*) AS followers, exists((:User {username: $username})-[:FOLLOWS]->(u)) as isFollowing
+            OPTIONAL MATCH(user:User {username: $username})
+            WITH u, followers, isFollowing, (u.username = user.username) as isME
+            RETURN u{.*, username:u.username, followers: followers, isFollowing: isFollowing, isMe: isME}
             ORDER BY followers DESC, u.createdAt DESC
-            LIMIT 20`);
+            LIMIT 20`,
+            { username: req.userId }
+        );
         res.json(r.records.map(rec => {
             const o = rec.get(0);
             o.followers = asInt(o.followers);

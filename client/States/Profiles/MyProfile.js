@@ -1,4 +1,4 @@
-import { StateBaseHTML, Profile, Parameters, b, $, h } from "../index.js";
+import { StateBaseHTML, Profile, Parameters, b, $, h, API } from "../index.js";
 
 export class MyProfile extends StateBaseHTML {
 
@@ -17,10 +17,11 @@ export class MyProfile extends StateBaseHTML {
         const main = b(template, 'main');
         $('#nombre-usuario', main).textContent = author.name;
         $('#usuario', main).textContent = '@' + author.username;
+        $('#num-amigos', main).textContent = author.followers.low;
         $('#num-publicaciones', main).textContent = author.posts.length;
         $('#graph', main).setAttribute('data-graph', author.username)
         $('.btn.seguir', main).remove()
-        const lista =$('#lista-intereses ul', main);
+        const lista = $('#lista-intereses ul', main);
         const temp = $('#interest-template', main);
         author.interests.forEach(interest => {
             const inter = temp.content.cloneNode(true);
@@ -39,18 +40,27 @@ export class MyProfile extends StateBaseHTML {
         posts.forEach(post => {
             const panel = template.cloneNode(true);
             $('.post-author-name', panel).textContent = author.name
-            $('.post-author-username', panel).textContent = '@' + author.username + ' · ' 
-            + post.createdAt.year.low + '/' + post.createdAt.month.low + '/' + post.createdAt.day.low
+            $('.post-author-username', panel).textContent = '@' + author.username + ' · '
+                + post.createdAt.year.low + '/' + post.createdAt.month.low + '/' + post.createdAt.day.low
             $('.post-body', panel).textContent = post.text
             $('.comments', panel).setAttribute('data-post', post.id)
             $('.comments', panel).textContent = post.comments.low + ' comentarios';
             $('.btn.ver', panel).remove()
             $('.btn.borrar', panel).setAttribute('data-delete', post.id)
+            if (post.imageUrl) {
+                const wrapper = document.createElement('div');
+                wrapper.setAttribute('class', 'post-image-wrapper');
+                const img = document.createElement('img');
+                img.src = `${API}${post.imageUrl}`;
+                img.setAttribute('class', 'post-image')
+                wrapper.appendChild(img);
+                $('.post-body', panel).appendChild(wrapper)
+            }
             box.appendChild(panel);
-        });    
+        });
     }
 
-    bindEvents(){
+    bindEvents() {
         Profile.hookSettings()
     }
 }
