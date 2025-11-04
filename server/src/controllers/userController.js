@@ -143,6 +143,7 @@ export const putMe = async (req, res) => {
     const session = driver.session();
     try {
         const { name, username, email, password, interest } = req.body;
+        let hashedPassword;
         if (password) hashedPassword = await hashPassword(password);
         console.log(interest)
         const r = await session.run(`
