@@ -143,9 +143,22 @@ export const putMe = async (req, res) => {
     const session = driver.session();
     try {
         const { name, username, email, password, interest } = req.body;
-        let hashedPassword;
-        if (password) hashedPassword = await hashPassword(password);
-        console.log(interest)
+
+        const params = { 
+            me: req.userId, 
+            username: username || null,
+            name: name || null, 
+            email: email || null,
+            interest: interest || []  // Asegurar que siempre sea un array
+        };
+
+        // Solo procesar password si se proporciona y no está vacío
+        if (password && typeof password === 'string' && password.trim() !== '') {
+            params.password = await hashPassword(password.trim());
+        } else {
+            params.password = null; // Enviar null explícitamente
+        }
+
         const r = await session.run(`
             MATCH (user:User {username:$me})
             SET 
@@ -168,7 +181,7 @@ export const putMe = async (req, res) => {
             // Retornar el usuario actualizado
             WITH DISTINCT user
             RETURN user AS updatedUser`,
-            { me: req.userId, username, name, password: hashedPassword, email, interest }
+            params
         );
         const token = sign(username);
         res.json({ ok: true, token: token });
